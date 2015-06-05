@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	id="WebApp_ID" version="3.1"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+	<display-name>IRA</display-name>
+	<context-param>
+		<param-name>resteasy.servlet.mapping.prefix</param-name>
+		<param-value>/rest</param-value>
+	</context-param>
+	<context-param>
+		<param-name>resteasy.resources</param-name>
+		<param-value>com.ira.web.rest.CommentsRestController</param-value>
+	</context-param>
+	<servlet>
+		<description>
+			JAX-RS Tools Generated - Do not modify
+		</description>
+		<servlet-name>JAX-RS Servlet</servlet-name>
+		<servlet-class>org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet>
+		<description>generated-servlet</description>
+		<servlet-name>IRA Servlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>classpath:IRA-web-context.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet>
+		<description>generated-resources-servlet</description>
+		<servlet-name>Resource Servlet</servlet-name>
+		<servlet-class>org.springframework.js.resource.ResourceServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>JAX-RS Servlet</servlet-name>
+		<url-pattern>/rest/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>Resource Servlet</servlet-name>
+		<url-pattern>/resources/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>IRA Servlet</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+	<!-- <listener> <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class> 
+		</listener> -->
+	<!-- <listener> <listener-class> org.springframework.web.context.request.RequestContextListener 
+		</listener-class> </listener> -->
+	<listener>
+		<listener-class>org.jboss.resteasy.plugins.server.servlet.ResteasyBootstrap</listener-class>
+	</listener>
+	<listener>
+		<listener-class>org.jboss.resteasy.plugins.spring.SpringContextLoaderListener</listener-class>
+	</listener>
+	<filter>
+		<description>generated-persistence-filter</description>
+		<filter-name>mysqlFilter</filter-name>
+		<filter-class>
+			org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter</filter-class>
+		<init-param>
+			<param-name>entityManagerFactoryBeanName</param-name>
+			<param-value>mysql</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>mysqlFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath:applicationContext.xml</param-value>
+	</context-param>
+	
+	<!--  Apply Spring Security Filter to all Request  narazie zakomentwane-->
+	<!-- <filter>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<url-pattern>/* </url-pattern>
+	</filter-mapping> -->
+</web-app>

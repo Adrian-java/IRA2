@@ -1,11 +1,11 @@
 package com.ira.domain;
 
 import java.io.Serializable;
-
 import java.lang.StringBuilder;
-
 import java.util.Set;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -13,7 +13,6 @@ import javax.persistence.NamedQuery;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 import javax.xml.bind.annotation.*;
-
 import javax.persistence.*;
 
 /**
@@ -35,6 +34,7 @@ public class Friend implements Serializable {
 
 	@Column(name = "Id", nullable = false)
 	@Basic(fetch = FetchType.EAGER)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Id
 	@XmlElement
 	Integer id;

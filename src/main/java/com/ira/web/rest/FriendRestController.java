@@ -2,18 +2,18 @@ package com.ira.web.rest;
 
 import java.util.List;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import com.ira.dao.FriendDAO;
 import com.ira.dao.UsersDAO;
@@ -26,7 +26,7 @@ import com.ira.service.FriendService;
  * 
  */
 
-@Path("/FriendRest")
+@Path("/Friend")
 @Component("FriendRestController")
 public class FriendRestController {
 
@@ -57,7 +57,7 @@ public class FriendRestController {
 	 */
 	@Path("/Friend/{friend_id}")@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Friend loadFriend(@PathVariable Integer friend_id) {
+	public Friend loadFriend(@PathParam("friend_id") Integer friend_id) {
 		return friendDAO.findFriendByPrimaryKey(friend_id);
 	}
 
@@ -67,7 +67,7 @@ public class FriendRestController {
 	 */
 	@Path("/Friend/{friend_id}/usersByIdUser2/{users_id}")@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Users loadFriendUsersByIdUser2(@PathVariable Integer friend_id, @PathVariable Integer related_usersbyiduser2_id) {
+	public Users loadFriendUsersByIdUser2(@PathParam("friend_id") Integer friend_id, @PathParam("users_id") Integer related_usersbyiduser2_id) {
 		Users users = usersDAO.findUsersByPrimaryKey(related_usersbyiduser2_id, -1, -1);
 
 		return users;
@@ -79,7 +79,7 @@ public class FriendRestController {
 	 */
 	@Path("/Friend/{friend_id}/usersByIdUser2/{users_id}")@DELETE
 	@Produces(MediaType.APPLICATION_JSON)
-	public void deleteFriendUsersByIdUser2(@PathVariable Integer friend_id, @PathVariable Integer related_usersbyiduser2_id) {
+	public void deleteFriendUsersByIdUser2(@PathParam("v") Integer friend_id, @PathParam("users_id") Integer related_usersbyiduser2_id) {
 		friendService.deleteFriendUsersByIdUser2(friend_id, related_usersbyiduser2_id);
 	}
 
@@ -89,7 +89,7 @@ public class FriendRestController {
 	 */
 	@Path("/Friend/{friend_id}/usersByIdUser2")@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Users getFriendUsersByIdUser2(@PathVariable Integer friend_id) {
+	public Users getFriendUsersByIdUser2(@PathParam("friend_id") Integer friend_id) {
 		return friendDAO.findFriendByPrimaryKey(friend_id).getUsersByIdUser2();
 	}
 
@@ -99,7 +99,8 @@ public class FriendRestController {
 	 */
 	@Path("/Friend")@PUT
 	@Produces(MediaType.APPLICATION_JSON)
-	public Friend saveFriend(@RequestBody Friend friend) {
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Friend saveFriend( Friend friend) {
 		friendService.saveFriend(friend);
 		return friendDAO.findFriendByPrimaryKey(friend.getId());
 	}
@@ -111,7 +112,7 @@ public class FriendRestController {
 	 */
 	@Path("/Friend/{friend_id}/usersByIdUsers1/{users_id}")@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Users loadFriendUsersByIdUsers1(@PathVariable Integer friend_id, @PathVariable Integer related_usersbyidusers1_id) {
+	public Users loadFriendUsersByIdUsers1(@PathParam("friend_id") Integer friend_id, @PathParam("users_id") Integer related_usersbyidusers1_id) {
 		Users users = usersDAO.findUsersByPrimaryKey(related_usersbyidusers1_id, -1, -1);
 
 		return users;
@@ -123,7 +124,8 @@ public class FriendRestController {
 	 */
 	@Path("/Friend/{friend_id}/usersByIdUser2")@PUT
 	@Produces(MediaType.APPLICATION_JSON)
-	public Users saveFriendUsersByIdUser2(@PathVariable Integer friend_id, @RequestBody Users usersbyiduser2) {
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Users saveFriendUsersByIdUser2(@PathParam("friend_id") Integer friend_id,  Users usersbyiduser2) {
 		friendService.saveFriendUsersByIdUser2(friend_id, usersbyiduser2);
 		return usersDAO.findUsersByPrimaryKey(usersbyiduser2.getId());
 	}
@@ -134,7 +136,8 @@ public class FriendRestController {
 	 */
 	@Path("/Friend/{friend_id}/usersByIdUser2")@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	public Users newFriendUsersByIdUser2(@PathVariable Integer friend_id, @RequestBody Users users) {
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Users newFriendUsersByIdUser2(@PathParam("friend_id") Integer friend_id,  Users users) {
 		friendService.saveFriendUsersByIdUser2(friend_id, users);
 		return usersDAO.findUsersByPrimaryKey(users.getId());
 	}
@@ -145,7 +148,8 @@ public class FriendRestController {
 	 */
 	@Path("/Friend")@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	public Friend newFriend(@RequestBody Friend friend) {
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Friend newFriend( Friend friend) {
 		friendService.saveFriend(friend);
 		return friendDAO.findFriendByPrimaryKey(friend.getId());
 	}
@@ -166,7 +170,7 @@ public class FriendRestController {
 	 */
 	@Path("/Friend/{friend_id}/usersByIdUsers1")@PUT
 	@Produces(MediaType.APPLICATION_JSON)
-	public Users saveFriendUsersByIdUsers1(@PathVariable Integer friend_id, @RequestBody Users usersbyidusers1) {
+	public Users saveFriendUsersByIdUsers1(@PathParam("friend_id") Integer friend_id,  Users usersbyidusers1) {
 		friendService.saveFriendUsersByIdUsers1(friend_id, usersbyidusers1);
 		return usersDAO.findUsersByPrimaryKey(usersbyidusers1.getId());
 	}
@@ -177,7 +181,7 @@ public class FriendRestController {
 	 */
 	@Path("/Friend/{friend_id}")@DELETE
 	@Produces(MediaType.APPLICATION_JSON)
-	public void deleteFriend(@PathVariable Integer friend_id) {
+	public void deleteFriend(@PathParam("friend_id") Integer friend_id) {
 		Friend friend = friendDAO.findFriendByPrimaryKey(friend_id);
 		friendService.deleteFriend(friend);
 	}
@@ -188,7 +192,7 @@ public class FriendRestController {
 	 */
 	@Path("/Friend/{friend_id}/usersByIdUsers1/{users_id}")@DELETE
 	@Produces(MediaType.APPLICATION_JSON)
-	public void deleteFriendUsersByIdUsers1(@PathVariable Integer friend_id, @PathVariable Integer related_usersbyidusers1_id) {
+	public void deleteFriendUsersByIdUsers1(@PathParam("friend_id") Integer friend_id, @PathParam("users_id") Integer related_usersbyidusers1_id) {
 		friendService.deleteFriendUsersByIdUsers1(friend_id, related_usersbyidusers1_id);
 	}
 
@@ -198,7 +202,7 @@ public class FriendRestController {
 	 */
 	@Path("/Friend/{friend_id}/usersByIdUsers1")@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Users getFriendUsersByIdUsers1(@PathVariable Integer friend_id) {
+	public Users getFriendUsersByIdUsers1(@PathParam("friend_id") Integer friend_id) {
 		return friendDAO.findFriendByPrimaryKey(friend_id).getUsersByIdUsers1();
 	}
 
@@ -208,7 +212,8 @@ public class FriendRestController {
 	 */
 	@Path("/Friend/{friend_id}/usersByIdUsers1")@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	public Users newFriendUsersByIdUsers1(@PathVariable Integer friend_id, @RequestBody Users users) {
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Users newFriendUsersByIdUsers1(@PathParam("friend_id") Integer friend_id,  Users users) {
 		friendService.saveFriendUsersByIdUsers1(friend_id, users);
 		return usersDAO.findUsersByPrimaryKey(users.getId());
 	}

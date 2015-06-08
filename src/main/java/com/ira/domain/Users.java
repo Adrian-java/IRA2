@@ -1,21 +1,33 @@
 package com.ira.domain;
 
 import java.io.Serializable;
-
-import java.lang.StringBuilder;
-
-import java.util.LinkedHashSet;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Basic;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
-
-import javax.xml.bind.annotation.*;
-
-import javax.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 /**
  */
@@ -36,13 +48,14 @@ import javax.persistence.*;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(namespace = "IRA/com/ira/domain", name = "Users")
 @XmlRootElement(namespace = "IRA/com/ira/domain")
-public class Users implements Serializable {
+public class Users implements Serializable, UserDetails {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 */
 
 	@Column(name = "Id", nullable = false)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Basic(fetch = FetchType.EAGER)
 	@Id
 	@XmlElement
@@ -215,9 +228,12 @@ public class Users implements Serializable {
 		setPassword(that.getPassword());
 		setRole(that.getRole());
 		setIsEnabled(that.getIsEnabled());
-		setFriendsForIdUser2(new java.util.LinkedHashSet<com.ira.domain.Friend>(that.getFriendsForIdUser2()));
-		setPostses(new java.util.LinkedHashSet<com.ira.domain.Posts>(that.getPostses()));
-		setFriendsForIdUsers1(new java.util.LinkedHashSet<com.ira.domain.Friend>(that.getFriendsForIdUsers1()));
+		setFriendsForIdUser2(new java.util.LinkedHashSet<com.ira.domain.Friend>(
+				that.getFriendsForIdUser2()));
+		setPostses(new java.util.LinkedHashSet<com.ira.domain.Posts>(
+				that.getPostses()));
+		setFriendsForIdUsers1(new java.util.LinkedHashSet<com.ira.domain.Friend>(
+				that.getFriendsForIdUsers1()));
 	}
 
 	/**
@@ -255,10 +271,54 @@ public class Users implements Serializable {
 		if (!(obj instanceof Users))
 			return false;
 		Users equalCheck = (Users) obj;
-		if ((id == null && equalCheck.id != null) || (id != null && equalCheck.id == null))
+		if ((id == null && equalCheck.id != null)
+				|| (id != null && equalCheck.id == null))
 			return false;
 		if (id != null && !id.equals(equalCheck.id))
 			return false;
+		return true;
+	}
+
+	@Override
+	@Transient
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		Set<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
+		authorities.add(new SimpleGrantedAuthority(role));
+		return authorities;
+	}
+
+	@Override
+	@Transient
+	public String getUsername() {
+		// TODO Auto-generated method stub
+		return login;
+	}
+
+	@Override
+	@Transient
+	public boolean isAccountNonExpired() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	@Transient
+	public boolean isAccountNonLocked() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	@Transient
+	public boolean isCredentialsNonExpired() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	@Transient
+	public boolean isEnabled() {
+		// TODO Auto-generated method stub
 		return true;
 	}
 }

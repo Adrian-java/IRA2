@@ -2,18 +2,18 @@ package com.ira.web.rest;
 
 import java.util.List;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import com.ira.dao.CommentsDAO;
 import com.ira.dao.PostsDAO;
@@ -28,7 +28,7 @@ import com.ira.service.PostsService;
  * 
  */
 
-@Path("/PostsRest")
+@Path("/Posts")
 @Component("PostsRestController")
 public class PostsRestController {
 
@@ -66,7 +66,7 @@ public class PostsRestController {
 	 */
 	@Path("/Posts/{posts_id}/users/{users_id}")@DELETE
 	@Produces(MediaType.APPLICATION_JSON)
-	public void deletePostsUsers(@PathVariable Integer posts_id, @PathVariable Integer related_users_id) {
+	public void deletePostsUsers(@PathParam("posts_id") Integer posts_id, @PathParam("users_id") Integer related_users_id) {
 		postsService.deletePostsUsers(posts_id, related_users_id);
 	}
 
@@ -76,7 +76,7 @@ public class PostsRestController {
 	 */
 	@Path("/Posts/{posts_id}/commentses/{comments_id}")@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Comments loadPostsCommentses(@PathVariable Integer posts_id, @PathVariable Integer related_commentses_id) {
+	public Comments loadPostsCommentses(@PathParam("posts_id") Integer posts_id, @PathParam("comments_id") Integer related_commentses_id) {
 		Comments comments = commentsDAO.findCommentsByPrimaryKey(related_commentses_id, -1, -1);
 
 		return comments;
@@ -88,7 +88,7 @@ public class PostsRestController {
 	 */
 	@Path("/Posts/{posts_id}/users/{users_id}")@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Users loadPostsUsers(@PathVariable Integer posts_id, @PathVariable Integer related_users_id) {
+	public Users loadPostsUsers(@PathParam("posts_id") Integer posts_id, @PathParam("users_id") Integer related_users_id) {
 		Users users = usersDAO.findUsersByPrimaryKey(related_users_id, -1, -1);
 
 		return users;
@@ -100,7 +100,8 @@ public class PostsRestController {
 	 */
 	@Path("/Posts")@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	public Posts newPosts(@RequestBody Posts posts) {
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Posts newPosts( Posts posts) {
 		postsService.savePosts(posts);
 		return postsDAO.findPostsByPrimaryKey(posts.getId());
 	}
@@ -111,7 +112,8 @@ public class PostsRestController {
 	 */
 	@Path("/Posts/{posts_id}/commentses")@PUT
 	@Produces(MediaType.APPLICATION_JSON)
-	public Comments savePostsCommentses(@PathVariable Integer posts_id, @RequestBody Comments commentses) {
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Comments savePostsCommentses(@PathParam("posts_id") Integer posts_id,  Comments commentses) {
 		postsService.savePostsCommentses(posts_id, commentses);
 		return commentsDAO.findCommentsByPrimaryKey(commentses.getId());
 	}
@@ -122,7 +124,8 @@ public class PostsRestController {
 	 */
 	@Path("/Posts/{posts_id}/users")@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	public Users newPostsUsers(@PathVariable Integer posts_id, @RequestBody Users users) {
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Users newPostsUsers(@PathParam("posts_id") Integer posts_id,  Users users) {
 		postsService.savePostsUsers(posts_id, users);
 		return usersDAO.findUsersByPrimaryKey(users.getId());
 	}
@@ -133,7 +136,8 @@ public class PostsRestController {
 	 */
 	@Path("/Posts/{posts_id}/users")@PUT
 	@Produces(MediaType.APPLICATION_JSON)
-	public Users savePostsUsers(@PathVariable Integer posts_id, @RequestBody Users users) {
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Users savePostsUsers(@PathParam("posts_id") Integer posts_id,  Users users) {
 		postsService.savePostsUsers(posts_id, users);
 		return usersDAO.findUsersByPrimaryKey(users.getId());
 	}
@@ -144,7 +148,8 @@ public class PostsRestController {
 	 */
 	@Path("/Posts/{posts_id}/commentses")@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	public Comments newPostsCommentses(@PathVariable Integer posts_id, @RequestBody Comments comments) {
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Comments newPostsCommentses(@PathParam("posts_id") Integer posts_id,  Comments comments) {
 		postsService.savePostsCommentses(posts_id, comments);
 		return commentsDAO.findCommentsByPrimaryKey(comments.getId());
 	}
@@ -155,7 +160,7 @@ public class PostsRestController {
 	 */
 	@Path("/Posts/{posts_id}/commentses/{comments_id}")@DELETE
 	@Produces(MediaType.APPLICATION_JSON)
-	public void deletePostsCommentses(@PathVariable Integer posts_id, @PathVariable Integer related_commentses_id) {
+	public void deletePostsCommentses(@PathParam("posts_id") Integer posts_id, @PathParam("comments_id") Integer related_commentses_id) {
 		postsService.deletePostsCommentses(posts_id, related_commentses_id);
 	}
 
@@ -165,7 +170,8 @@ public class PostsRestController {
 	 */
 	@Path("/Posts")@PUT
 	@Produces(MediaType.APPLICATION_JSON)
-	public Posts savePosts(@RequestBody Posts posts) {
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Posts savePosts( Posts posts) {
 		postsService.savePosts(posts);
 		return postsDAO.findPostsByPrimaryKey(posts.getId());
 	}
@@ -176,7 +182,7 @@ public class PostsRestController {
 	 */
 	@Path("/Posts/{posts_id}")@DELETE
 	@Produces(MediaType.APPLICATION_JSON)
-	public void deletePosts(@PathVariable Integer posts_id) {
+	public void deletePosts(@PathParam("posts_id") Integer posts_id) {
 		Posts posts = postsDAO.findPostsByPrimaryKey(posts_id);
 		postsService.deletePosts(posts);
 	}
@@ -197,7 +203,7 @@ public class PostsRestController {
 	 */
 	@Path("/Posts/{posts_id}/users")@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Users getPostsUsers(@PathVariable Integer posts_id) {
+	public Users getPostsUsers(@PathParam("posts_id") Integer posts_id) {
 		return postsDAO.findPostsByPrimaryKey(posts_id).getUsers();
 	}
 
@@ -207,7 +213,7 @@ public class PostsRestController {
 	 */
 	@Path("/Posts/{posts_id}")@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Posts loadPosts(@PathVariable Integer posts_id) {
+	public Posts loadPosts(@PathParam("posts_id") Integer posts_id) {
 		return postsDAO.findPostsByPrimaryKey(posts_id);
 	}
 
@@ -218,7 +224,7 @@ public class PostsRestController {
 	 */
 	@Path("/Posts/{posts_id}/commentses")@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Comments> getPostsCommentses(@PathVariable Integer posts_id) {
+	public List<Comments> getPostsCommentses(@PathParam("posts_id") Integer posts_id) {
 		return new java.util.ArrayList<Comments>(postsDAO.findPostsByPrimaryKey(posts_id).getCommentses());
 	}
 }

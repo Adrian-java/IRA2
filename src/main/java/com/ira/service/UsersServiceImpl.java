@@ -1,21 +1,19 @@
 package com.ira.service;
 
-import com.ira.dao.FriendDAO;
-import com.ira.dao.PostsDAO;
-import com.ira.dao.UsersDAO;
-
-import com.ira.domain.Friend;
-import com.ira.domain.Posts;
-import com.ira.domain.Users;
-
 import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import org.springframework.transaction.annotation.Transactional;
+
+import com.ira.dao.FriendDAO;
+import com.ira.dao.PostsDAO;
+import com.ira.dao.UsersDAO;
+import com.ira.domain.Friend;
+import com.ira.domain.Posts;
+import com.ira.domain.Users;
 
 /**
  * Spring service that handles CRUD requests for Users entities
@@ -32,6 +30,9 @@ public class UsersServiceImpl implements UsersService {
 	 */
 	@Autowired
 	private FriendDAO friendDAO;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	/**
 	 * DAO injected by Spring that manages Posts entities
@@ -110,6 +111,7 @@ public class UsersServiceImpl implements UsersService {
 			}
 			users = usersDAO.store(existingUsers);
 		} else {
+			users.setPassword(passwordEncoder.encode(users.getPassword()));
 			users = usersDAO.store(users);
 		}
 		usersDAO.flush();

@@ -2,6 +2,7 @@ package com.ira.web.rest;
 
 import java.util.List;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -13,7 +14,6 @@ import javax.ws.rs.core.MediaType;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import com.ira.dao.CommentsDAO;
 import com.ira.dao.PostsDAO;
@@ -26,7 +26,7 @@ import com.ira.service.CommentsService;
  * 
  */
 
-@Path("/CommentsRest")
+@Path("/Comments")
 @Component("CommentsRestController")
 public class CommentsRestController {
 
@@ -57,7 +57,7 @@ public class CommentsRestController {
 	 */
 	@Path("/{comments_id}/comments/{comments_id}")@DELETE
 	@Produces(MediaType.APPLICATION_JSON)
-	public void deleteCommentsComments(@PathParam("") Integer comments_id, @PathParam("") Integer related_comments_id) {
+	public void deleteCommentsComments(@PathParam("comments_id") Integer comments_id, @PathParam("comments_id") Integer related_comments_id) {
 		commentsService.deleteCommentsComments(comments_id, related_comments_id);
 	}
 
@@ -67,7 +67,7 @@ public class CommentsRestController {
 	 */
 	@Path("/{comments_id}/posts")@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Posts getCommentsPosts(@PathParam("") Integer comments_id) {
+	public Posts getCommentsPosts(@PathParam("comments_id") Integer comments_id) {
 		return commentsDAO.findCommentsByPrimaryKey(comments_id).getPosts();
 	}
 
@@ -77,7 +77,8 @@ public class CommentsRestController {
 	 */
 	@Path("/{comments_id}/comments")@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	public Comments newCommentsComments(@PathParam("") Integer comments_id, @RequestBody Comments comments) {
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Comments newCommentsComments(@PathParam("comments_id") Integer comments_id,  Comments comments) {
 		commentsService.saveCommentsComments(comments_id, comments);
 		return commentsDAO.findCommentsByPrimaryKey(comments.getId());
 	}
@@ -88,7 +89,7 @@ public class CommentsRestController {
 	 */
 	@Path("/{comments_id}/comments")@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Comments getCommentsComments(@PathParam("") Integer comments_id) {
+	public Comments getCommentsComments(@PathParam("comments_id") Integer comments_id) {
 		return commentsDAO.findCommentsByPrimaryKey(comments_id).getComments();
 	}
 
@@ -98,7 +99,8 @@ public class CommentsRestController {
 	 */
 	@Path("/{comments_id}/comments")@PUT
 	@Produces(MediaType.APPLICATION_JSON)
-	public Comments saveCommentsComments(@PathParam("") Integer comments_id, @RequestBody Comments comments) {
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Comments saveCommentsComments(@PathParam("comments_id") Integer comments_id,  Comments comments) {
 		commentsService.saveCommentsComments(comments_id, comments);
 		return commentsDAO.findCommentsByPrimaryKey(comments.getId());
 	}
@@ -109,7 +111,7 @@ public class CommentsRestController {
 	 */
 	@Path("/{comments_id}/commentses/{comments_id}")@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Comments loadCommentsCommentses(@PathParam("") Integer comments_id, @PathParam("") Integer related_commentses_id) {
+	public Comments loadCommentsCommentses(@PathParam("comments_id") Integer comments_id, @PathParam("comments_id") Integer related_commentses_id) {
 		Comments comments = commentsDAO.findCommentsByPrimaryKey(related_commentses_id, -1, -1);
 
 		return comments;
@@ -131,7 +133,7 @@ public class CommentsRestController {
 	 */
 	@Path("/{comments_id}/posts/{posts_id}")@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Posts loadCommentsPosts(@PathParam("") Integer comments_id, @PathParam("") Integer related_posts_id) {
+	public Posts loadCommentsPosts(@PathParam("comments_id") Integer comments_id, @PathParam("posts_id") Integer related_posts_id) {
 		Posts posts = postsDAO.findPostsByPrimaryKey(related_posts_id, -1, -1);
 
 		return posts;
@@ -143,7 +145,8 @@ public class CommentsRestController {
 	 */
 	@Path("/{comments_id}/commentses")@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	public Comments newCommentsCommentses(@PathParam("") Integer comments_id, @RequestBody Comments comments) {
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Comments newCommentsCommentses(@PathParam("comments_id") Integer comments_id,  Comments comments) {
 		commentsService.saveCommentsCommentses(comments_id, comments);
 		return commentsDAO.findCommentsByPrimaryKey(comments.getId());
 	}
@@ -154,7 +157,7 @@ public class CommentsRestController {
 	 */
 	@Path("/{comments_id}/comments/{comments_id}")@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Comments loadCommentsComments(@PathParam("") Integer comments_id, @PathParam("") Integer related_comments_id) {
+	public Comments loadCommentsComments(@PathParam("comments_id") Integer comments_id, @PathParam("comments_id") Integer related_comments_id) {
 		Comments comments = commentsDAO.findCommentsByPrimaryKey(related_comments_id, -1, -1);
 
 		return comments;
@@ -166,7 +169,8 @@ public class CommentsRestController {
 	 */
 	@Path("/{comments_id}/posts")@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	public Posts newCommentsPosts(@PathParam("") Integer comments_id, @RequestBody Posts posts) {
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Posts newCommentsPosts(@PathParam("comments_id") Integer comments_id,  Posts posts) {
 		commentsService.saveCommentsPosts(comments_id, posts);
 		return postsDAO.findPostsByPrimaryKey(posts.getId());
 	}
@@ -178,7 +182,8 @@ public class CommentsRestController {
 	@Path("")
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	public Comments newComments(@RequestBody Comments comments) {
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Comments newComments( Comments comments) {
 		commentsService.saveComments(comments);
 		return commentsDAO.findCommentsByPrimaryKey(comments.getId());
 	}
@@ -189,7 +194,7 @@ public class CommentsRestController {
 	 */
 	@Path("/{comments_id}/posts/{posts_id}")@DELETE
 	@Produces(MediaType.APPLICATION_JSON)
-	public void deleteCommentsPosts(@PathParam("") Integer comments_id, @PathParam("") Integer related_posts_id) {
+	public void deleteCommentsPosts(@PathParam("posts_id") Integer comments_id, @PathParam("posts_id") Integer related_posts_id) {
 		commentsService.deleteCommentsPosts(comments_id, related_posts_id);
 	}
 
@@ -199,7 +204,8 @@ public class CommentsRestController {
 	 */
 	@Path("/{comments_id}/commentses")@PUT
 	@Produces(MediaType.APPLICATION_JSON)
-	public Comments saveCommentsCommentses(@PathParam("") Integer comments_id, @RequestBody Comments commentses) {
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Comments saveCommentsCommentses(@PathParam("comments_id") Integer comments_id,  Comments commentses) {
 		commentsService.saveCommentsCommentses(comments_id, commentses);
 		return commentsDAO.findCommentsByPrimaryKey(commentses.getId());
 	}
@@ -221,7 +227,8 @@ public class CommentsRestController {
 	 */
 	@Path("/{comments_id}/posts")@PUT
 	@Produces(MediaType.APPLICATION_JSON)
-	public Posts saveCommentsPosts(@PathParam("") Integer comments_id, @RequestBody Posts posts) {
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Posts saveCommentsPosts(@PathParam("comments_id") Integer comments_id,  Posts posts) {
 		commentsService.saveCommentsPosts(comments_id, posts);
 		return postsDAO.findPostsByPrimaryKey(posts.getId());
 	}
@@ -232,7 +239,8 @@ public class CommentsRestController {
 	 */
 	@Path("")@PUT
 	@Produces(MediaType.APPLICATION_JSON)
-	public Comments saveComments(@RequestBody Comments comments) {
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Comments saveComments( Comments comments) {
 		commentsService.saveComments(comments);
 		return commentsDAO.findCommentsByPrimaryKey(comments.getId());
 	}
@@ -243,7 +251,7 @@ public class CommentsRestController {
 	 */
 	@Path("/{comments_id}")@DELETE
 	@Produces(MediaType.APPLICATION_JSON)
-	public void deleteComments(@PathParam("") Integer comments_id) {
+	public void deleteComments(@PathParam("comments_id") Integer comments_id) {
 		Comments comments = commentsDAO.findCommentsByPrimaryKey(comments_id);
 		commentsService.deleteComments(comments);
 	}
@@ -254,7 +262,7 @@ public class CommentsRestController {
 	 */
 	@Path("/{comments_id}/commentses")@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Comments> getCommentsCommentses(@PathParam("") Integer comments_id) {
+	public List<Comments> getCommentsCommentses(@PathParam("comments_id") Integer comments_id) {
 		return new java.util.ArrayList<Comments>(commentsDAO.findCommentsByPrimaryKey(comments_id).getCommentses());
 	}
 
@@ -264,7 +272,7 @@ public class CommentsRestController {
 	 */
 	@Path("/{comments_id}")@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Comments loadComments(@PathParam("") Integer comments_id) {
+	public Comments loadComments(@PathParam("comments_id") Integer comments_id) {
 		return commentsDAO.findCommentsByPrimaryKey(comments_id);
 	}
 }

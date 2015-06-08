@@ -9,11 +9,11 @@
 	<description />
 	<properties>
 		<guice.version>3.0-rc3</guice.version>
-		<jackson-version>1.6.3</jackson-version>
+		<jackson-version>1.9.0</jackson-version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<dependencies>
-	<dependency>
+		<dependency>
 			<groupId>org.jboss.resteasy</groupId>
 			<artifactId>jaxrs-api</artifactId>
 			<version>3.0.10.Final</version>
@@ -38,19 +38,19 @@
 			<artifactId>resteasy-jaxb-provider</artifactId>
 			<version>3.0.10.Final</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>5.1.6</version>
 		</dependency>
-			<dependency>
+		<dependency>
 			<groupId>org.glassfish</groupId>
 			<artifactId>bean-validator</artifactId>
 			<version>3.0-JBoss-4.0.2</version>
 			<scope>provided</scope>
 		</dependency>
-		
+
 
 		<dependency>
 			<groupId>org.glassfish</groupId>
@@ -153,7 +153,7 @@
 			<artifactId>javax.servlet.jsp.jstl</artifactId>
 			<version>1.2.1</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>asm</groupId>
 			<artifactId>asm</artifactId>
@@ -556,11 +556,11 @@
 			<version>${jackson-version}</version>
 		</dependency>
 		<dependency>
-	<groupId>org.codehaus.jackson</groupId>
-	<artifactId>jackson-mapper-lgpl</artifactId>
-	<version>${jackson-version}</version>
-</dependency>
-		
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-lgpl</artifactId>
+			<version>${jackson-version}</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
@@ -637,6 +637,11 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-resources-plugin</artifactId>
+			<version>2.4.3</version>
+		</dependency>
+		<dependency>
 			<groupId>javax.transaction</groupId>
 			<artifactId>jta</artifactId>
 			<version>1.1</version>
@@ -663,7 +668,7 @@
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.3.2</version>
+				<version>3.3</version>
 				<configuration>
 					<source>1.7</source>
 					<target>1.7</target>
@@ -673,7 +678,7 @@
 				<artifactId>maven-war-plugin</artifactId>
 				<version>2.2</version>
 				<configuration>
-					<version>3.1</version>
+					<version>3.0</version>
 					<failOnMissingWebXml>false</failOnMissingWebXml>
 				</configuration>
 			</plugin>
